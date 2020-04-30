@@ -1,0 +1,25 @@
+.btn {
+  width: 15%;
+}
+
+input.ng-invalid.ng-touched{
+  border: 1px solid red;
+}
+
+
+.helper-text {
+  color: white;
+  font-size: 0.8em;
+  font-style: italic;
+}
+
+.form-control {
+  margin-bottom: 0;
+}
+
+ngb-alert {
+  z-index: 500;
+  position: fixed;
+  top: 30px;
+  left: 15px;
+}

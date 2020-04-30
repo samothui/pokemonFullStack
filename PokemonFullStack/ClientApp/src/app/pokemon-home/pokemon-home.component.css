@@ -1,0 +1,9 @@
+/* Makes the .modal visible */
+.sshow {
+  display: block;
+}
+
+/* Makes the .modal invisible */
+.hhiden {
+  display: none;
+}

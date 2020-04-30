@@ -1,0 +1,45 @@
+<h3>Pokemon Population</h3>
+  <button class="btn btn-warning btn-sm" (click)='randomPoke(30)'>Add random</button>
+  <button class="btn btn-danger btn-sm" (click)='clear()'>Clear list</button>
+
+  <form class="search">
+    <div class="form-group form-inline">
+        Search Pokemon, types or dimensions: <input class="form-control ml-2" type="text" [formControl]="filter" />
+    </div>
+  </form>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col" class="arrowAble" sortable="name" (sort)="onSort($event)">Name</th>
+      <th scope="col">Type</th>
+      <th scope="col" class="arrowAble" sortable="weight" (sort)="onSort($event)">Weight (kg)</th>
+      <th scope="col" class="arrowAble" sortable="height" (sort)="onSort($event)">Height (m)</th>
+      <th scope="col">Image</th>
+      <th></th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="list-group-item-action" *ngFor="let pokemon of pokemons; let i = index">
+
+      <th scope="row">{{i+1}}</th>
+      <td  >{{pokemon.name}} </td>
+      <td>
+        <span *ngFor="let type of pokemon.type" class= "detNo" [ngClass]="type">{{type}}</span>
+      </td>
+      <td>{{pokemon.weight}}</td>
+      <td> {{pokemon.height}} </td>
+      <td style="padding: 0"><img
+                                 src="{{pokemon.img}}"
+                                 height="50"
+                                 width="50"
+                                 name="PokemonImage"></td>
+      <td><button class="btn btn-primary btn-sm" (click)="editPokemon(pokemon)">Edit</button>
+          <button class="btn btn-info btn-sm" (click)="openPokedex(pokemon)">View</button>
+      </td>
+
+    </tr>
+  </tbody>
+</table>

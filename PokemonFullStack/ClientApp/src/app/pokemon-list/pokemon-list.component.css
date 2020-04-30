@@ -1,0 +1,57 @@
+.search {
+  display: inline-block;
+  margin-left: 5em;
+  color: white;
+  font-weight: 500;
+}
+
+.btn {
+  margin: 0.5em;
+}
+
+th.arrowAble{
+  cursor:pointer;
+}
+
+th[sortable].desc:after, th[sortable].asc:after{
+  content: '';
+  display: inline-block;
+  position: absolute;
+  background: url(https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-up-01-512.png) no-repeat;
+  background-size: 22px;
+  width: 22px;
+  height: 22px;
+  vertical-align: middle;
+}
+
+th[sortable].desc:after {
+    transform: rotate(180deg);
+}
+.detNo {
+  background-color: grey;
+  border-radius: 0.25em;
+  padding: 0 5px;
+  width: 20px;
+  margin-left: 5px;
+  color: black!important;
+}
+
+.Normal{background-color: #A8A878;border: 1px solid #6D6D4E;}
+.Fire {background-color: #F08030; border: 1px solid #9C531F;}
+.Fighting{background-color: #C03028; border: 1px solid #7D1F1A; color: white!important;}
+.Water{background-color: #6890F0; border: 1px solid #445E9C;}
+.Flying{background-color: #A890F0;     border: 1px solid #6D5E9C;}
+.Grass{background-color: #78C850; border: 1px solid #4E8234;}
+.Poison{background-color: #A040A0; border: 1px solid #682A68; color: white!important;}
+.Electric{background-color: #F8D030; border: 1px solid #A1871F;}
+.Ground{background-color: #E0C068; border: 1px solid #927D44;}
+.Psychic{background-color: #F85888; border: 1px solid #A13959;}
+.Rock{background-color: #B8A038; border: 1px solid #786824;}
+.Ice{background-color: #98D8D8; border: 1px solid #638D8D;}
+.Bug{background-color: #A8B820; border: 1px solid #6D7815;}
+.Dragon{background-color: #7038F8; border: 1px solid #4924A1;}
+.Ghost{background-color: #705898; border: 1px solid #493963; color: white!important;}
+.Dark{background-color: #705848; border: 1px solid #49392F; color: white!important;}
+.Steel{background-color: #B8B8D0; border: 1px solid #787887;}
+.Fairy{background-color: #EE99AC; border: 1px solid #9B6470; }
+

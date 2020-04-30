@@ -1,0 +1,42 @@
+<div class="mmodal">
+  <div class="modal-header">
+    <h4 class="modal-title titlecase">{{pokedexPokemon.name}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+
+  <div class="modal-body">
+    <div class="upper-body">
+      <img id="detProfile" class="responsive" src="{{pokedexPokemon.img}}" width="200px" height="200px" >
+      <p  class="titlecase"><strong>Type:   </strong>
+          <span *ngFor="let type of pokedexPokemon.type" class= "detNo" [ngClass]="type">{{type}}</span>
+      </p>
+      <p><em>#{{pokedexPokemon.order}}</em></p>
+      <p>HP: <ngb-progressbar id="stHP" type="primary" [striped]="true" [animated]="true"[value]="pokedexPokemon.stHP">{{pokedexPokemon.stHP}}</ngb-progressbar></p>
+      <p>Speed: <ngb-progressbar id="stSpeed" type="secondary"[striped]="true" [animated]="true" [value]="pokedexPokemon.stSpeed">{{pokedexPokemon.stSpeed}}</ngb-progressbar></p>
+      <p>Attack:<ngb-progressbar id="stAttack"type="danger" [striped]="true" [animated]="true"[value]="pokedexPokemon.stAtt">{{pokedexPokemon.stAtt}}</ngb-progressbar></p>
+      <p>Defense: <ngb-progressbar id="stDefense"type="success" [striped]="true" [animated]="true"[value]="pokedexPokemon.stDef">{{pokedexPokemon.stDef}}</ngb-progressbar></p>
+      <p>Special Att: <ngb-progressbar id="stSPAttack"type="danger" [striped]="true" [animated]="true"[value]="pokedexPokemon.stSPAtt">{{pokedexPokemon.stSPAtt}}</ngb-progressbar></p>
+      <p>Special Def: <ngb-progressbar id="stSPDefense"type="success" [striped]="true" [animated]="true"[value]="pokedexPokemon.stSPDef">{{pokedexPokemon.stSPDef}}</ngb-progressbar></p>
+    </div>
+  <br>
+  <hr>
+    <div class="lower-body">
+      <h4 class="titlecase middle-title">{{pokedexPokemon.ability}}</h4>
+      <p>{{pokedexPokemon.abilityDesc}}</p>
+    </div>
+    <hr>
+    <h4 class="titlecase middle-title">General stats</h4>
+    <div class="general-stats">
+      <p id="gStWeight"><strong>Weight:</strong> {{pokedexPokemon.weight}}kg</p>
+      <p id="gStHeight"><strong>Height:</strong> {{pokedexPokemon.height}}m</p>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" (click)="activeModal.close('Close click')">Close</button>
+  </div>
+</div>
