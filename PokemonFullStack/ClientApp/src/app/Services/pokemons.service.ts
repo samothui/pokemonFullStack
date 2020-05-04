@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Pokemon, Pokedex } from './pokemon.interface';
+import { Pokemon, Pokedex } from '../pokemon.interface';
 import {  HttpClient } from '@angular/common/http';
 import { TitleCasePipe, LowerCasePipe } from '@angular/common';
 
@@ -21,29 +21,30 @@ export class PokemonsStorageService {
   pokemonsPokedex= <Pokedex>{};
   editMode = false;
 
-  addRandomPokemon(numRepeats){
-    for (let i = 0; i<= numRepeats; i++){
-      this.http.get('https://pokeapi.co/api/v2/pokemon/'+Math.floor(Math.random()*(700-1)+1)).subscribe(
-        (Response:any) =>{
-          // console.log('name:'+ Response.name);
+  addRandomPokemon(){
+    this.http.get('http://localhost:51886/api/pokemons').subscribe(
+      (Response:any) =>{
+        console.log(Response);
+        Response.forEach(pokemonResponse => {
+          console.log(pokemonResponse);
           let newPokemon = {
-            name: this.titlecase.transform(Response.name),
-            type: [],
-            weight: Response.weight / 10,
-            height: Response.height / 10,
-            img: Response.sprites.front_default
+            name: pokemonResponse.Name,
+            weight: pokemonResponse.Weight,
+            height: pokemonResponse.Height,
+            img: pokemonResponse.ImageUrl,
+            type: []
           }
-          Response.types.map(values =>
-            newPokemon.type.push(this.titlecase.transform(values.type.name)));
-            this.addToList(newPokemon);
-        }
-      )
-    }
+          pokemonResponse.TypeDTOs.map(values =>
+            newPokemon.type.push(values.TypeName));
+          this.addToList(newPokemon);
+          console.log(newPokemon);
+        })
+
+
+      }
+    )
   }
 
-  callAbility(abilityName){
-    return this.http.get('https://pokeapi.co/api/v2/ability/'+abilityName);
-  }
 
   getImage(pokemonName){
     let lowerName = this.lowercase.transform(pokemonName);
@@ -56,7 +57,7 @@ export class PokemonsStorageService {
 
   addToPokedex(pokemon) {
     let lowerName = this.lowercase.transform(pokemon.name);
-    return this.http.get('https://pokeapi.co/api/v2/pokemon/'+lowerName);
+    return this.http.get('http://localhost:51886/api/pokemons/name/'+lowerName);
   }
 
   addToList(pokemonToBeAdded) {
