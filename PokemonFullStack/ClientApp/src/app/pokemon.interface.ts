@@ -6,6 +6,14 @@ export interface Pokemon{
     img: string
 }
 
+export interface BasicPokemon{
+  name: string,
+  weight: number,
+  height: number,
+  img: string,
+  types: Array<string>
+}
+
 export interface Pokedex{
   name:string,
   type: Array<string>,

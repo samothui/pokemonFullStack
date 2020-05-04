@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Pokemon } from '../pokemon.interface';
-import { PokemonsStorageService } from '../pokemons.service';
+import { PokemonsStorageService } from '../Services/pokemons.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';

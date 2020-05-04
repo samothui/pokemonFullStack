@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Pokemon, Pokedex } from '../pokemon.interface';
-import { PokemonsStorageService } from '../pokemons.service';
+import { PokemonsStorageService } from '../Services/pokemons.service';
 
 @Component({
   selector: 'app-pokedex',

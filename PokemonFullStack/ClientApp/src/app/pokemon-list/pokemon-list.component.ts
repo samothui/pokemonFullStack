@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChildren, QueryList, PipeTransform} from '@angular/core';
 import { Pokemon, SortEvent, compare } from '../pokemon.interface';
-import { PokemonsStorageService } from '../pokemons.service';
+import { PokemonsStorageService } from '../Services/pokemons.service';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PokedexComponent } from '../pokedex/pokedex.component';
@@ -66,38 +66,30 @@ export class PokemonListComponent implements OnInit {
     this.pokeStorage.addToPokedex(pokemon)
     .subscribe(
       (Response:any) =>{
+        console.log(Response);
         let pokePokedex = {
-          name:Response.name,
+          name:Response.Name,
           type:[],
-          order:Response.id,
+          order:Response.PokedexId,
           weight:pokemon.weight,
           height:pokemon.height,
-          img: Response.sprites.front_default,
-          stSpeed: Response.stats[0].base_stat,
-          stSPDef: Response.stats[1].base_stat,
-          stSPAtt: Response.stats[2].base_stat,
-          stDef: Response.stats[3].base_stat,
-          stAtt: Response.stats[4].base_stat,
-          stHP: Response.stats[5].base_stat,
-          ability: Response.abilities[0].ability.name,
-          abilityDesc: ''
+          img: Response.ImageUrl,
+          stSpeed: Response.Speed,
+          stSPDef: Response.SpecialDefense,
+          stSPAtt: Response.SpecialAttack,
+          stDef: Response.Defense,
+          stAtt: Response.Attack,
+          stHP: Response.HP,
+          ability: Response.AbilityName,
+          abilityDesc: Response.Description
         }
-        Response.types.map(values =>
-          pokePokedex.type.push(this.titlecase.transform(values.type.name)));
-        this.pokeStorage.callAbility(pokePokedex.ability)
-        .subscribe(
-          (Response:any) =>{
-            pokePokedex.abilityDesc = Response.effect_entries[0].effect;
-            this.pokeStorage.pokemonsPokedex=pokePokedex;
+        Response.TypeDTOs.map(values =>
+          pokePokedex.type.push(values.TypeName));
+        this.pokeStorage.pokemonsPokedex=pokePokedex;
         console.log(this.pokeStorage.pokemonsPokedex);
         this.modalService.open(PokedexComponent, { size: 'lg' });
-          }
-        );
-
       }
     );
-
-    // modalRef.componentInstance.name = 'World';
   }
 
   editPokemon(pokemon){
@@ -105,8 +97,8 @@ export class PokemonListComponent implements OnInit {
     this.router.navigate(['form']);
   }
 
-  randomPoke(num){
-    this.pokeStorage.addRandomPokemon(num);
+  randomPoke(){
+    this.pokeStorage.addRandomPokemon();
     this.pokemons = this.pokeStorage.pokemons;
   }
 
