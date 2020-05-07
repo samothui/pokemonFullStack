@@ -1,5 +1,5 @@
-<h3 *ngIf="(btnText==='Add')">Add a new Pokemon here</h3>
-<h3 *ngIf="(btnText==='Edit')">Edit a Pokemon here</h3>
+<h3 *ngIf="(btnText==='Add')">Search for a new pokemon to add here</h3>
+<!-- <h3 *ngIf="(btnText==='Edit')">Edit a Pokemon here</h3> -->
 
 
 <div>
@@ -9,7 +9,7 @@
   <span class="helper-text" *ngIf="nameInp.invalid && nameInp.touched">Please add a Pokemon name!</span><br>
 
 
-  <label for="exampleFormControlInput1">Pokemon Type</label>
+  <!-- <label for="exampleFormControlInput1">Pokemon Type</label>
   <input class="form-control" placeholder="e.g. Electric" type= "text" name="type" [(ngModel)]="pokemons.type"
          #typeInp="ngModel" required>
   <span class="helper-text" *ngIf="typeInp.invalid && typeInp.touched">Please add a Pokemon type!</span><br>
@@ -24,18 +24,28 @@
   <span class="helper-text" *ngIf="heightInp.invalid && heightInp.touched">Please add a Pokemon height!</span><br>
 
   <input type="checkbox" id="changeTab" name="changeTab" value="changeTab" ngModel>
-  <label for="changeTab"> Let me see the Pokemon</label><br>
+  <label for="changeTab"> Let me see the Pokemon</label><br> -->
 
 
   <button id="add"
           class="btn btn-success"
           type="submit"
-          [disabled]="nameInp.invalid || typeInp.invalid || weightInp.invalid || heightInp.invalid"
           [class.btn-warning] = "(btnText==='Edit')"
-          >{{btnText}}
+          >Search pokemon
         </button>
 </form>
 </div>
 
 <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">{{ successMessage }}</ngb-alert>
 
+<br><hr>
+<div *ngIf="pokemonFound">
+  <div class="jumbotron">
+    <h4>Pokemon found! </h4>
+    <p> <strong>Name:</strong> {{newPokemon.name}}</p>
+    <p> <strong>Type:</strong>
+      <span *ngFor="let type of newPokemon.typeDTOs" class= "detNo" [ngClass]="type.TypeName">{{type.TypeName}}</span>  </p>
+    <img src={{newPokemon.imageURL}}><br>
+    <button class="btn btn-primary" (click)="addToDB(newPokemon)">Add to DB</button>
+  </div>
+</div>

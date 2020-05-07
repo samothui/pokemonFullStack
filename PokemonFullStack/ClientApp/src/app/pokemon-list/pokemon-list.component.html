@@ -1,5 +1,5 @@
 <h3>Pokemon Population</h3>
-  <button class="btn btn-warning btn-sm" (click)='randomPoke(30)'>Add random</button>
+  <button class="btn btn-warning btn-sm" (click)='randomPoke()'>Add random</button>
   <button class="btn btn-danger btn-sm" (click)='clear()'>Clear list</button>
 
   <form class="search">
@@ -36,8 +36,8 @@
                                  height="50"
                                  width="50"
                                  name="PokemonImage"></td>
-      <td><button class="btn btn-primary btn-sm" (click)="editPokemon(pokemon)">Edit</button>
-          <button class="btn btn-info btn-sm" (click)="openPokedex(pokemon)">View</button>
+      <td> <button class="btn btn-info btn-sm" (click)="openPokedex(pokemon)">View</button>
+            <button class="btn btn-danger btn-sm" (click)="deletePokemon(pokemon.name)">Delete</button>
       </td>
 
     </tr>
