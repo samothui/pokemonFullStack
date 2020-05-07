@@ -5,6 +5,9 @@ import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { TitleCasePipe, LowerCasePipe } from '@angular/common';
+import { format } from 'url';
+
 
 
 @Component({
@@ -15,7 +18,9 @@ import { debounceTime } from 'rxjs/operators';
 export class PokemonFormComponent implements OnInit, OnDestroy {
 
   constructor (private pokeStorage: PokemonsStorageService,
-               private router:Router) {}
+               private router:Router,
+               private titlecase: TitleCasePipe,
+               ) {}
 
   ngOnInit(){
 
@@ -48,44 +53,91 @@ export class PokemonFormComponent implements OnInit, OnDestroy {
   private _success = new Subject<string>();
   staticAlertClosed = false;
   successMessage: string;
+  pokemonFound : boolean = false;
+  newPokemon = {
+    pokedexId: "",
+    name: "",
+    hp: "",
+    speed: "",
+    attack: "",
+    defense: "",
+    specialAttack:"",
+    specialDefense:"",
+    weight: "",
+    height: "",
+    imageURL: "",
+    abilityName:"",
+    abilityDescription:"",
+    typeDTOs: [{TypeName: "Electric"}]
+  }
 
   changeSuccessMessage(message) {
-    this._success.next(`Pokemon successfully ${message} !`);
+    this._success.next(`Pokemon successfully ${message} to the Database!`);
   }
 
   onSubmit(form){
-    const newPokemon = {
-      name: "",
-      type: form.value.type,
-      weight: form.value.weight,
-      height: form.value.height,
-      img: this.pokemons.img,
-    }
-    if (this.btnText === "Add") {
-      newPokemon.name = form.value.name
-    } else {
-      newPokemon.name = this.pokeStorage.pokemonsToBeEdited.name;
-    }
-    this.pokeStorage.getImage(newPokemon.name)
+    this.newPokemon.typeDTOs = [];
+    this.newPokemon.imageURL = "";
+    this.newPokemon.name = form.value.name;
+    if (this.newPokemon.name != "") {
+    this.pokeStorage.getBasicStats(this.newPokemon.name)
       .subscribe(
       (value: any) => {
-        newPokemon.img = value.sprites.front_default;
-        this.pokeStorage.addToList(newPokemon);
-        if (this.pokeStorage.editMode){
-          this.changeSuccessMessage('edited');
-        } else this.changeSuccessMessage('added');
-        this.pokeStorage.pokemonsToBeEdited = <Pokemon>{};
-        this.pokeStorage.editMode= false;
-        if (form.value.changeTab) {
-          this.router.navigate(['population']);
-            }
+        this.newPokemon.pokedexId = value.id,
+        this.newPokemon.hp = value.stats[5].base_stat,
+        this.newPokemon.speed = value.stats[0].base_stat,
+        this.newPokemon.attack = value.stats[4].base_stat,
+        this.newPokemon.defense = value.stats[3].base_stat,
+        this.newPokemon.specialAttack = value.stats[2].base_stat,
+        this.newPokemon.specialDefense =  value.stats[1].base_stat,
+        ///TO DO - CHECK WEIGHT AND HEIGHT MEASUREMENT UNITS
+        this.newPokemon.weight = value.weight;
+        this.newPokemon.height = value.height;
+        this.newPokemon.imageURL = value.sprites.front_default,
+        this.newPokemon.abilityName = value.abilities[0].ability.name,
+        this.pokeStorage.getAbilityDescription(value.abilities[0].ability.url)
+          .subscribe(
+            (abilityValue:any) => {
+          console.log("Re-requesting HTTP");
+          this. newPokemon.abilityDescription= abilityValue.effect_entries[0].effect;
+          });
+        value.types.map(mapTypes =>
+          this.newPokemon.typeDTOs.push({TypeName: this.titlecase.transform(mapTypes.type.name)}));
+        console.log(this.newPokemon);
+
+        this.pokemonFound = true;
         form.reset();
-        this.btnText = "Add";
+        // this.pokeStorage.addToList(newPokemon);
+        // if (this.pokeStorage.editMode){
+        //   this.changeSuccessMessage('edited');
+        // } else this.changeSuccessMessage('added');
+        // this.pokeStorage.pokemonsToBeEdited = <Pokemon>{};
+        // this.pokeStorage.editMode= false;
+        // if (form.value.changeTab) {
+        //   this.router.navigate(['population']);
+        //     }
+        // form.reset();
+        // this.btnText = "Add";
       },
       (err) => {
-        alert('You are wrong');
+        this.pokemonFound = false;
+        alert('There is no such pokemon');
         form.reset();
       }
-      )
+      )}
+      else this.pokemonFound = false;
+      form.reset();
+
+    }
+
+    addToDB(newPokemon){
+      this.pokeStorage.sendPostRequest(newPokemon).subscribe(result => {
+        this.changeSuccessMessage('added');
+        this.pokemonFound = false;
+
+        console.log(result);});
+
+
+
     }
 }

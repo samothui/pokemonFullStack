@@ -36,8 +36,8 @@
                                  height="50"
                                  width="50"
                                  name="PokemonImage"></td>
-      <td><button class="btn btn-primary btn-sm" (click)="editPokemon(pokemon)">Edit</button>
-          <button class="btn btn-info btn-sm" (click)="openPokedex(pokemon)">View</button>
+      <td> <button class="btn btn-info btn-sm" (click)="openPokedex(pokemon)">View</button>
+            <button class="btn btn-danger btn-sm" (click)="deletePokemon(pokemon.name)">Delete</button>
       </td>
 
     </tr>

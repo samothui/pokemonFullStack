@@ -81,7 +81,7 @@ export class PokemonListComponent implements OnInit {
           stAtt: Response.Attack,
           stHP: Response.HP,
           ability: Response.AbilityName,
-          abilityDesc: Response.Description
+          abilityDesc: Response.AbilityDescription
         }
         Response.TypeDTOs.map(values =>
           pokePokedex.type.push(values.TypeName));
@@ -92,10 +92,22 @@ export class PokemonListComponent implements OnInit {
     );
   }
 
-  editPokemon(pokemon){
-    this.pokeStorage.addToEditList(pokemon);
-    this.router.navigate(['form']);
+  deletePokemon (name){
+    this.pokeStorage.sendDeleteRequest(name).subscribe(result => {
+      for (var i =0; i < this.pokeStorage.pokemons.length; i++)
+      if (this.pokeStorage.pokemons[i].name === name) {
+       this.pokeStorage.pokemons.splice(i,1);
+       break;
+        }
+        this.pokemons = this.pokeStorage.pokemons;
+        console.log(this.pokeStorage.pokemons);
+
+      ;});
   }
+  // editPokemon(pokemon){
+  //   this.pokeStorage.addToEditList(pokemon);
+  //   this.router.navigate(['form']);
+  // }
 
   randomPoke(){
     this.pokeStorage.addRandomPokemon();
