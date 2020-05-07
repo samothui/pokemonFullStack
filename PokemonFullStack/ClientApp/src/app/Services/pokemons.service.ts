@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Pokemon, Pokedex } from '../pokemon.interface';
-import {  HttpClient } from '@angular/common/http';
+import {  HttpClient, HttpHeaders } from '@angular/common/http';
 import { TitleCasePipe, LowerCasePipe } from '@angular/common';
 
 
@@ -26,18 +26,16 @@ export class PokemonsStorageService {
       (Response:any) =>{
         console.log(Response);
         Response.forEach(pokemonResponse => {
-          console.log(pokemonResponse);
           let newPokemon = {
             name: pokemonResponse.Name,
-            weight: pokemonResponse.Weight,
-            height: pokemonResponse.Height,
+            weight: pokemonResponse.Weight/10,
+            height: pokemonResponse.Height/10,
             img: pokemonResponse.ImageUrl,
             type: []
           }
           pokemonResponse.TypeDTOs.map(values =>
             newPokemon.type.push(values.TypeName));
           this.addToList(newPokemon);
-          console.log(newPokemon);
         })
 
 
@@ -46,9 +44,23 @@ export class PokemonsStorageService {
   }
 
 
-  getImage(pokemonName){
+  getBasicStats(pokemonName){
     let lowerName = this.lowercase.transform(pokemonName);
     return this.http.get('https://pokeapi.co/api/v2/pokemon/'+lowerName);}
+
+  getAbilityDescription(abilityURL){
+    return this.http.get(abilityURL);
+  }
+
+  sendPostRequest(newPokemon){
+    let url = 'http://localhost:51886/api/pokemons';
+    return this.http.post(url, newPokemon);
+  }
+
+  sendDeleteRequest(name){
+    let url = 'http://localhost:51886/api/pokemons/';
+    return this.http.delete(url+name);
+  }
 
   addToEditList(pokemon) {
     this.pokemonsToBeEdited = pokemon;
